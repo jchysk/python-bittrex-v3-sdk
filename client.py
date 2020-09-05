@@ -93,6 +93,21 @@ class Client(object):
         '''
         return self._authenticated_request("get", "addresses")
 
+    def get_balances(self):
+        '''
+        Used to retrieve all balances from your account.
+        :return:
+        [
+          {
+            "currencySymbol": "string",
+            "total": "number (double)",
+            "available": "number (double)",
+            "updatedAt": "string (date-time)"
+          }
+        ]
+        '''
+        return self._authenticated_request("get", "balances")
+
     def get_closed_orders(self, **params):
         '''
         List closed orders.
@@ -135,3 +150,105 @@ class Client(object):
         ]
         '''
         return self._authenticated_request("get", "orders/closed", **params)
+
+    def get_deposits_open(self, **params):
+        '''
+        List open deposits. Results are sorted in inverse order of UpdatedAt, and are limited to the first 1000.
+        @param status optional - string enum
+        @param currencySymbol optional - string
+        :return:
+        '''
+        return self._authenticated_request("get", "deposits/open", **params)
+
+    def get_deposits_closed(self, **params):
+        '''
+        List closed deposits. StartDate and EndDate filters apply to the CompletedAt field. Pagination and the
+        sort order of the results are in inverse order of the CompletedAt field.
+        @param status optional - string enum
+        @param currencySymbol optional - string
+        @param nextPageToken optional - string. The unique identifier of the item that the resulting
+            query result should start after, in the sort order of the given endpoint. Used for traversing
+            a paginated set in the forward direction. (Optional. May only be specified if PreviousPageToken
+            is not specified.)
+        @param previousPageToken optional - string. The unique identifier of the item that the resulting
+            query result should end before, in the sort order of the given endpoint. Used for traversing a
+            paginated set in the reverse direction. (Optional. May only be specified if NextPageToken is
+            not specified.)
+        @param pageSize optional - integer. maximum number of items to retrieve
+            default 100, minimum 1, maximum 200
+        @param startDate optional - ISO8601. Filters out results before this timestamp
+        @param endDate optional - ISO8601. Filters out results after this timestamp
+        :return:
+        [
+          {
+            "id": "string (uuid)",
+            "currencySymbol": "string",
+            "quantity": "number (double)",
+            "cryptoAddress": "string",
+            "txId": "string",
+            "confirmations": "integer (int32)",
+            "updatedAt": "string (date-time)",
+            "completedAt": "string (date-time)",
+            "status": "string",
+            "source": "string"
+          }
+        ]
+        '''
+        return self._authenticated_request("get", "deposits/closed", **params)
+
+    def get_withdrawals_open(self, **params):
+        '''
+        List open withdrawals. Results are sorted in inverse order of UpdatedAt, and are limited to the first 1000.
+        @param status optional - string enum
+        @param currencySymbol optional - string
+        :return:
+        [
+          {
+            "id": "string (uuid)",
+            "currencySymbol": "string",
+            "quantity": "number (double)",
+            "cryptoAddress": "string",
+            "cryptoAddressTag": "string",
+            "txCost": "number (double)",
+            "txId": "string",
+            "status": "string",
+            "createdAt": "string (date-time)",
+            "completedAt": "string (date-time)"
+          }
+        ]
+        '''
+        return self._authenticated_request("get", "withdrawals/open", **params)
+
+    def get_withdrawals_closed(self, **params):
+        '''
+        List closed withdrawals. StartDate and EndDate filters apply to the CompletedAt field. Pagination and the
+        sort order of the results are in inverse order of the CompletedAt field.
+        @param status optional - string enum
+        @param currencySymbol optional - string
+        @param nextPageToken optional - string. The unique identifier of the item that the resulting
+            query result should start after, in the sort order of the given endpoint. Used for traversing
+            a paginated set in the forward direction. (Optional. May only be specified if PreviousPageToken
+            is not specified.)
+        @param previousPageToken optional - string. The unique identifier of the item that the resulting
+            query result should end before, in the sort order of the given endpoint. Used for traversing a
+            paginated set in the reverse direction. (Optional. May only be specified if NextPageToken is
+            not specified.)
+        @param pageSize optional - integer. maximum number of items to retrieve
+            default 100, minimum 1, maximum 200
+        @param startDate optional - ISO8601. Filters out results before this timestamp
+        @param endDate optional - ISO8601. Filters out results after this timestamp
+        :return:
+        [
+          {
+            "id": "string (uuid)",
+            "currencySymbol": "string",
+            "quantity": "number (double)",
+            "cryptoAddress": "string",
+            "txId": "string",
+            "status": "string",
+            "createdAt": "string (date-time)",
+            "completedAt": "string (date-time)"
+          }
+        ]
+        '''
+        return self._authenticated_request("get", "withdrawals/closed", **params)
